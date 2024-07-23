@@ -10,6 +10,9 @@ main > section.items h4 {
 }
 main {
     display: flex;
+    width: fit-content;
+    margin: 0 auto;
+    flex-direction: column;
     justify-content: center;
     align-items:flex-start;
     flex-wrap: wrap;
@@ -33,11 +36,11 @@ section.items .product {
     flex: 0 0 calc(33.333% - 24px);
     cursor: pointer;
     text-align: center;
+    min-height: 163px;
 }
 
 section.items .product.selected {
-    border: 2px solid rgb(29, 134, 233);
-
+    box-shadow: inset 2px 2px rgb(29, 134, 233), inset -2px -2px rgb(29, 134, 233);
 }
 
 section.items .photo img {
@@ -77,13 +80,15 @@ section.items  .description .quantity-area .quantity {
     margin: 0 4px;
 }
 
-
 section.summary {
     background-color: rgb(245, 245, 245);
-    padding: 20px;
+    width: 100%;
     min-height: 200px;
-    min-width: 200px;
     text-align: center;
+}
+
+div.summary-container {
+    padding: 20px;
 }
 
 section.summary table {

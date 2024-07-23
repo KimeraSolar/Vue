@@ -18,17 +18,22 @@
             <section class="items">
                 <h4>Selecione os produtos</h4>
                 
-                <div v-for="product in products" class="product">
+                <div 
+                    v-on:click="product.active = !product.active"
+                    v-for="product in products" 
+                    class="product"
+                    :class="product.active && 'selected'"
+                >
                     <div class="photo">
                         <img :src="product.photo">
                     </div>
                     <div class="description">
                         <span class="name">{{product.name}}</span>
                         <span class="price">{{product.price}}</span>
-                        <div class="quantity-area">
-                            <button>-</button>
+                        <div v-if="product.active" class="quantity-area">
+                            <button v-on:click.stop="product.quantity--" :disabled="product.quantity <= 1">-</button>
                             <span class="quantity">{{product.quantity}}</span>
-                            <button>+</button>
+                            <button v-on:click.stop="product.quantity++">+</button>
                         </div>
                     </div>
                 </div>
@@ -36,26 +41,29 @@
             </section>
 
             <section class="summary">
-                <strong>Resumo do pedido</strong>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Item</th>
-                            <th>Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1x Big Mac</td>
-                            <td>5.99</td>
-                        </tr>
-                        
-                        <tr>
-                            <th>Total</th>
-                            <th>5.99</th>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="summary-container">
+
+                    <strong>Resumo do pedido</strong>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1x Big Mac</td>
+                                <td>5.99</td>
+                            </tr>
+                            
+                            <tr>
+                                <th>Total</th>
+                                <th>5.99</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </section>
 
         </main>
