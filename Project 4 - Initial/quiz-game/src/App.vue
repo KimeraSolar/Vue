@@ -1,23 +1,51 @@
 <script setup>
+import shuffleArray from './utils/shuffle';
+
+// Esse script não pode ter o export default, por causa do setup
+</script>
+
+<script>
+export default {
+  name: 'App',
+  data(){
+    return{
+      quiz: {
+        type: null,
+        difficulty: null,
+        category: null,
+        question: null,
+        correct_answer: null,
+        incorrect_answers: []
+      }
+    }
+  },
+  computed: {
+    answers(){
+      let answersArray = [...this.quiz.incorrect_answers];
+      answersArray.push(this.quiz.correct_answer);
+      return shuffleArray( answersArray );
+    }
+  },
+  async created() {
+    const resp = await this.axios.get("https://opentdb.com/api.php?amount=1")
+    this.quiz = resp.data.results[0];
+  },
+}
 </script>
 
 <template>
   <section>
-    <h1 class="question">Microphones can be used not only to pick up sound, but also to project sound similar to a speaker.</h1>
+    <h1 v-html="quiz.question" class="question"></h1>
       <ul class="tags">
-        <li class="tag hard">Difficulty: hard</li>
-        <li class="tag">Entertainment: Video Games</li>
+        <li class="tag" :class="quiz.difficulty">Difficulty: {{ quiz.difficulty }}</li>
+        <li class="tag" v-html="quiz.category"></li>
       </ul>
   </section>
   <section class="options">
-    <div class="quiz-option">
-      <input type="radio" name="options" value="True">
-      <label>True</label>
-    </div>
-    <div class="quiz-option">
-      <input type="radio" name="options" value="False">
-      <label>False</label>
-    </div>
+    <!-- <div v-for="option in answers()" class="quiz-option">
+      <input type="radio" name="options" :value="option">
+      <label>{{ option }}</label>
+    </div> -->
     <button class="send">Send</button>
   </section>
 </template>
@@ -50,6 +78,14 @@
 
 .hard{
   background-color: #a40d0d;
+}
+
+.medium{
+  background-color: #ac6203;
+}
+
+.easy{
+  background-color: #116c11;
 }
 
 .options{
