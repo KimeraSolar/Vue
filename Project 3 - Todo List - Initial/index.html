@@ -25,7 +25,7 @@
                         v-for="item in toDoList"
                         class="single-todo"
                         :class="item.done && 'done'"
-                        v-on:click="item.done = !item.done"
+                        v-on:click="item.done = !item.done;"
                     >
                         <p>{{item.description}}</p>
                     </div>
