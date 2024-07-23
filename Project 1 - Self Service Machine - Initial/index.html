@@ -40,26 +40,26 @@
                 
             </section>
 
-            <section class="summary">
+            <section v-if="products.some((p) => p.active)" class="summary">
                 <div class="summary-container">
 
                     <strong>Resumo do pedido</strong>
                     <table>
                         <thead>
                             <tr>
-                                <th>Item</th>
-                                <th>Total</th>
+                                <th class="left">Item</th>
+                                <th class="right">Total</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1x Big Mac</td>
-                                <td>5.99</td>
+                            <tr v-for="product in products.filter((p) => p.active)">
+                                <td class="left">{{product.quantity}}x {{product.name}}</td>
+                                <td class="right">{{(product.quantity*product.price).toFixed(2)}}</td>
                             </tr>
                             
                             <tr>
-                                <th>Total</th>
-                                <th>5.99</th>
+                                <th class="left">Total</th>
+                                <th class="right">{{total()}}</th>
                             </tr>
                         </tbody>
                     </table>

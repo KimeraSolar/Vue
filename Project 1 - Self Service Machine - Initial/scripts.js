@@ -70,6 +70,9 @@ const SelfServiceMachine = {
         return {
             products: window.products
         }
+    },
+    methods: {
+        total: () => this.products.reduce((acc, current) => current.active ? current.quantity*current.price + acc : acc, 0).toFixed(2)
     }
 };
 
