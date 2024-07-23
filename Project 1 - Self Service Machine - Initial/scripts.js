@@ -63,4 +63,15 @@ var products = [
         "quantity": 1
     }
 ];
- 
+
+// Objeto que guarda a lógica da aplicação
+const SelfServiceMachine = {
+    data() {
+        return {
+            products: window.products
+        }
+    }
+};
+
+// Inicialização da aplicação
+Vue.createApp(SelfServiceMachine).mount('#app');
