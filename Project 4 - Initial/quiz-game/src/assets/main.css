@@ -5,6 +5,7 @@
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
+  color: #cfcfcf;
 }
 
 a,
@@ -31,5 +32,6 @@ a,
     display: grid;
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
+    align-items: center;
   }
 }

@@ -1,47 +1,79 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <section>
+    <h1 class="question">Microphones can be used not only to pick up sound, but also to project sound similar to a speaker.</h1>
+      <ul class="tags">
+        <li class="tag hard">Difficulty: hard</li>
+        <li class="tag">Entertainment: Video Games</li>
+      </ul>
+  </section>
+  <section class="options">
+    <div class="quiz-option">
+      <input type="radio" name="options" value="True">
+      <label>True</label>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <div class="quiz-option">
+      <input type="radio" name="options" value="False">
+      <label>False</label>
+    </div>
+    <button class="send">Send</button>
+  </section>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.question{
+  font-size: 30px;
+  text-align: right;
+  margin-bottom: 12px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.tags{
+  justify-content: right;
+  display: flex;
+  gap: 6px;
+  justify-items: left;
+  padding: 0;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.tag{
+  font-weight: 500;
+  list-style-type: none;
+  background-color: midnightblue;
+  width: fit-content;
+  padding: 6px 12px;
+  border-radius: 20px;
+  box-shadow: 2px 4px 2px black;
+  font-size: 12px;
 }
+
+.hard{
+  background-color: #a40d0d;
+}
+
+.options{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-left: 60px;
+  min-height: 150px;
+}
+
+.quiz-option{
+  display: flex;
+  justify-content: baseline;
+  gap: 6px;
+}
+
+.send{
+  width: fit-content;
+  padding: 6px 32px;
+  background-color: #5b5b5b;
+  border: none;
+  border-radius: 6px;
+  box-shadow: 2px 4px 2px black;
+  color: white;
+}
+
 </style>
