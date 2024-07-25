@@ -23,4 +23,8 @@ export default {
     width: fit-content;
     margin: 0 auto;
 }
+
+h2{
+    text-align: center;
+}
 </style>
