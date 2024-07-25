@@ -1,5 +1,7 @@
 <script setup>
+import { fetchQuestion } from './utils/fetchQuestion';
 import shuffleArray from './utils/shuffle';
+import ScoreBoard from '@/components/ScoreBoard.vue'
 
 // Esse script não pode ter o export default, por causa do setup
 </script>
@@ -7,6 +9,9 @@ import shuffleArray from './utils/shuffle';
 <script>
 export default {
   name: 'App',
+  components: {
+    ScoreBoard
+  },
   data(){
     return{
       quiz: {
@@ -18,19 +23,32 @@ export default {
         incorrect_answers: []
       },
       chosen_answer: undefined,
-      answer_submitted: false
+      answer_submitted: false,
+      win_count: 0,
+      total_questions: 0
     }
   },
   methods: {
+    async getNewQuestion(){
+      this.answer_submitted = false;
+      this.chosen_answer = undefined;
+      this.quiz = {
+        type: undefined,
+        difficulty: undefined,
+        category: undefined,
+        question: undefined,
+        correct_answer: undefined,
+        incorrect_answers: []
+      };
+      this.quiz = await fetchQuestion(this.axios);
+    },
     submitAnswer(){
       if(this.chosen_answer){
         this.answer_submitted = true;
+        this.total_questions++;
       }
       if(this.chosen_answer && this.chosen_answer === this.quiz.correct_answer){
-        console.log('Acertou')
-      }
-      if(this.chosen_answer && this.chosen_answer !== this.quiz.correct_answer){
-        console.log('Errou')
+        this.win_count++;
       }
     }
   },
@@ -39,16 +57,20 @@ export default {
       let answersArray = [...this.quiz.incorrect_answers];
       answersArray.push(this.quiz.correct_answer);
       return shuffleArray( answersArray );
+    },
+    loading(){
+      return !this.quiz.question;
     }
   },
   async created() {
-    const resp = await this.axios.get("https://opentdb.com/api.php?amount=1")
-    this.quiz = resp.data.results[0];
+    this.quiz = await fetchQuestion(this.axios);
   },
 }
 </script>
 
 <template>
+  <ScoreBoard :win_count="win_count" :total_score="total_questions"/>
+  <span v-if="loading" class="quiz">Loading...</span>
   <section class="quiz">
     <section v-if="quiz.question">
       <h1 v-html="quiz.question" class="question"></h1>
@@ -70,9 +92,9 @@ export default {
     <button v-if="quiz.question" @click="submitAnswer()" class="send">Send</button>
   </section>
   <section v-if="this.answer_submitted" class="result">
-    <h4 v-if="this.chosen_answer !== this.quiz.correct_answer">&#10060; You picked the wrong answer. The correct was {{ this.quiz.correct_answer }}.</h4>
-    <h4 v-else>&#9989; Congratulations, the answer {{ this.quiz.correct_answer }} is correct!</h4>
-    <button class="send">Next question</button>
+    <h4 v-if="this.chosen_answer !== this.quiz.correct_answer">&#10060; You picked the wrong answer. The correct was <span v-html="this.quiz.correct_answer"></span>.</h4>
+    <h4 v-else>&#9989; Congratulations, the answer <span v-html="this.quiz.correct_answer"></span> is correct!</h4>
+    <button @click="getNewQuestion()" class="send">Next question</button>
   </section>
 </template>
 
