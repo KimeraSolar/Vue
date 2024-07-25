@@ -10,12 +10,27 @@ export default {
   data(){
     return{
       quiz: {
-        type: null,
-        difficulty: null,
-        category: null,
-        question: null,
-        correct_answer: null,
+        type: undefined,
+        difficulty: undefined,
+        category: undefined,
+        question: undefined,
+        correct_answer: undefined,
         incorrect_answers: []
+      },
+      chosen_answer: undefined,
+      answer_submitted: false
+    }
+  },
+  methods: {
+    submitAnswer(){
+      if(this.chosen_answer){
+        this.answer_submitted = true;
+      }
+      if(this.chosen_answer && this.chosen_answer === this.quiz.correct_answer){
+        console.log('Acertou')
+      }
+      if(this.chosen_answer && this.chosen_answer !== this.quiz.correct_answer){
+        console.log('Errou')
       }
     }
   },
@@ -34,36 +49,54 @@ export default {
 </script>
 
 <template>
-  <section>
-    <h1 v-html="quiz.question" class="question"></h1>
-      <ul class="tags">
-        <li class="tag" :class="quiz.difficulty">Difficulty: {{ quiz.difficulty }}</li>
-        <li class="tag" v-html="quiz.category"></li>
-      </ul>
-  </section>
-  <section class="options">
-    <div class="options-container">
-      <div v-for="option in answers" class="quiz-option" :key="option">
-        <input type="radio" name="options" :value="option" />
-        <label v-html="option"></label>
+  <section class="quiz">
+    <section v-if="quiz.question">
+      <h1 v-html="quiz.question" class="question"></h1>
+        <ul class="tags">
+          <li class="tag" :class="quiz.difficulty">Difficulty: {{ quiz.difficulty }}</li>
+          <li class="tag" v-html="quiz.category"></li>
+        </ul>
+    </section>
+    <section v-if="quiz.question" class="options">
+      <div class="options-container">
+        <div v-for="option in answers" class="quiz-option" :key="option">
+          <input type="radio" name="options" :value="option" v-model="chosen_answer" :disabled="answer_submitted"/>
+          <label v-html="option"></label>
+        </div>
       </div>
-    </div>
-    <button class="send">Send</button>
+    </section>
+  </section>
+  <section v-if="!this.answer_submitted" class="result">
+    <button v-if="quiz.question" @click="submitAnswer()" class="send">Send</button>
+  </section>
+  <section v-if="this.answer_submitted" class="result">
+    <h4 v-if="this.chosen_answer !== this.quiz.correct_answer">&#10060; You picked the wrong answer. The correct was {{ this.quiz.correct_answer }}.</h4>
+    <h4 v-else>&#9989; Congratulations, the answer {{ this.quiz.correct_answer }} is correct!</h4>
+    <button class="send">Next question</button>
   </section>
 </template>
 
 <style scoped>
+.result{
+  justify-content: end;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  min-height: 64px;
+  margin-top: 32px;
+}
+
 .question{
   font-size: 30px;
-  text-align: right;
+  text-align: center;
   margin-bottom: 12px;
 }
 
 .tags{
-  justify-content: right;
+  justify-content: center;
   display: flex;
   gap: 6px;
-  justify-items: left;
   padding: 0;
 }
 
@@ -102,6 +135,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
   margin: 60px;
 }
 
@@ -121,4 +155,25 @@ export default {
   color: white;
 }
 
+@media (min-width: 1024px) {
+  .quiz{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+    align-items: baseline;
+  }
+
+  .question{
+    text-align: right;
+  }
+
+  .tags{
+    justify-content: right;
+  }
+
+  .options{
+    align-items: baseline;
+  }
+
+}
 </style>
