@@ -42,10 +42,12 @@ export default {
       </ul>
   </section>
   <section class="options">
-    <!-- <div v-for="option in answers()" class="quiz-option">
-      <input type="radio" name="options" :value="option">
-      <label>{{ option }}</label>
-    </div> -->
+    <div class="options-container">
+      <div v-for="option in answers" class="quiz-option" :key="option">
+        <input type="radio" name="options" :value="option" />
+        <label v-html="option"></label>
+      </div>
+    </div>
     <button class="send">Send</button>
   </section>
 </template>
@@ -88,12 +90,19 @@ export default {
   background-color: #116c11;
 }
 
+.options-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-bottom: 20px;
+  min-height: 150px;
+}
+
 .options{
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  margin-left: 60px;
-  min-height: 150px;
+  margin: 60px;
 }
 
 .quiz-option{
