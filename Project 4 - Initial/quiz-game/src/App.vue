@@ -82,8 +82,8 @@ export default {
     <section v-if="quiz.question" class="options">
       <div class="options-container">
         <div v-for="option in answers" class="quiz-option" :key="option">
-          <input type="radio" name="options" :value="option" v-model="chosen_answer" :disabled="answer_submitted"/>
-          <label v-html="option"></label>
+          <input type="radio" name="options" :value="option" :id="option" v-model="chosen_answer" :disabled="answer_submitted"/>
+          <label v-html="option" :for="option"></label>
         </div>
       </div>
     </section>
