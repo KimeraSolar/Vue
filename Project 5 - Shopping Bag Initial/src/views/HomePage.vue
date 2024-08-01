@@ -20,6 +20,8 @@
   </template>
   
   <script>
+import { mapState } from 'vuex';
+
   
   export default {
     name: 'HomePage',
@@ -28,14 +30,11 @@
         
       }
     },
-    computed: {
-      products(){
-        return this.$store.state.products;
-      },
-      bag(){
-        return this.$store.state.productsInBag;
-      }
-    },
+    computed: mapState([
+      'products',
+      'productsInBag'
+    ])
+    ,
     methods: {
       addToBag(product){
         const productInBag = {...product, quantity: 1}
@@ -47,7 +46,7 @@
       },
 
       isInBag(product){
-        return this.bag.find(prod => prod.id === product.id);
+        return this.productsInBag.find(prod => prod.id === product.id);
       }
     }
   }
