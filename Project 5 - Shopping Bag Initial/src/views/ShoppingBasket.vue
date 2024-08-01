@@ -2,33 +2,54 @@
     <div class="basket">
       <div class="items">
   
-        <div class="item">
-          <div class="remove">Remove item</div>
-          <div class="photo"><img src="https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_.jpg" alt=""></div>
-          <div class="description">Mens Casual Premium Slim Fit T-Shirts </div>
-          <div class="price">
-            <span class="quantity-area">
-              <button disabled="">-</button>
-              <span class="quantity">1</span>
-              <button>+</button>
-            </span>
-            <span class="amount">US$ 22.30</span>
+        <template v-if="productsInBag.length > 0">
+          <div v-for="product in productsInBag" :key="product.id" class="item">
+            <div class="remove" @click="removeFromBag(product)">Remove item</div>
+            <div class="photo"><img :src="product.image" :alt="product.title"></div>
+            <div class="description">{{ product.title }}</div>
+            <div class="price">
+              <span class="quantity-area">
+                <button 
+                :disabled="product.quantity === 1"
+                @click="setQuantity(product, product.quantity - 1)">-</button>
+                <span class="quantity">{{ product.quantity }}</span>
+                <button @click="setQuantity(product, product.quantity + 1)">+</button>
+              </span>
+              <span class="amount">US$ {{ (product.quantity*product.price).toFixed(2) }}</span>
+            </div>
           </div>
-        </div>
-        <div class="grand-total"> Grand Total: US$ 22.30</div>
+          
+          <div class="grand-total"> Grand Total: US$ {{ getGrandTotal().toFixed(2) }}</div>
+        </template>
+        <template v-else>
+          <h4>No items in bag yet</h4>
+        </template>
   
       </div>
     </div>
   </template>
   
   <script>
+import { mapState } from 'vuex';
   
   export default {
     name: 'ShoppingBasket',
   
     methods: {
-     
+     getGrandTotal(){
+      return this.productsInBag.reduce((previousValue, currentProduct) => previousValue + currentProduct.quantity*currentProduct.price, 0);
+     },
+     removeFromBag(product){
+      this.$store.dispatch('removeFromBag', product);
+     },
+     setQuantity(product, newQuantity){
+      this.$store.dispatch('setQuantity', {product, newQuantity});
+     }
     },
+
+    computed: mapState([
+      'productsInBag'
+    ])
    
   }
   </script>

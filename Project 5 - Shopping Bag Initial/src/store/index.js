@@ -28,6 +28,15 @@ export default createStore({
 
     removeFromBag({commit, state}, product){
       commit('setBag', state.productsInBag.filter(prod => prod.id !== product.id));
+    },
+
+    setQuantity({commit, state}, {product, newQuantity}){
+      const newProductsBag = state.productsInBag.map(prod => {
+        if(prod.id === product.id)
+          return {...prod, quantity: newQuantity};
+        return prod;
+      });
+      commit('setBag', newProductsBag);
     }
   },
   modules: {
