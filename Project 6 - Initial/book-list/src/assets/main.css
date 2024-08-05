@@ -298,3 +298,8 @@ table tr th {
     grid-template-columns: 1fr;
   }
 }
+
+.transparent-text{
+  color: transparent;
+  user-select: none;
+}
