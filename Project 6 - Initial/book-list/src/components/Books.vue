@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 
-const props = defineProps(['books'])
+const props = defineProps(['books']);
+const emits = defineEmits(['toggleIsRead']);
 
 </script>
 
