@@ -12,7 +12,7 @@ const props = defineProps(['books'])
                 <i class="fa-solid fa-eye"></i>
             </div>
             <div class="book-cover">
-                <img :src="book.cover" />
+                <img :src="book.cover" onerror="this.src='https://www.mobileread.com/forums/attachment.php?attachmentid=111307&d=1378926764'"/>
 
                 <button @click="$emit('toggleIsRead', book.id)" :class="book.isRead && 'isRead'">
                     <i class="fa-solid fa-eye"></i>
