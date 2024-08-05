@@ -14,7 +14,7 @@ const props = defineProps(['books'])
             <div class="book-cover">
                 <img :src="book.cover" />
 
-                <button :class="book.isRead && 'isRead'">
+                <button @click="$emit('toggleIsRead', book.id)" :class="book.isRead && 'isRead'">
                     <i class="fa-solid fa-eye"></i>
                     <span>{{ book.isRead ? 'Já li' : 'Ainda não li' }}</span
                     >
