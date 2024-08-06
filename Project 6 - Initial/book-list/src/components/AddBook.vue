@@ -10,6 +10,17 @@ let newBook = {
     author: ''
 }
 
+function addNewBook(){
+    emits('addBook', newBook);
+    newBook = {
+        title: '',
+        cover: '',
+        isRead:false,
+        isbn: '',
+        author: ''
+    }
+}
+
 </script>
 
 <template>
@@ -71,6 +82,6 @@ let newBook = {
         <label for="readIt">Já li o livro</label>
         </div>
  
-        <button @click.prevent="$emit('addBook',newBook)" type="submit" class="btn btn-block">Salvar livro</button>
+        <button @click.prevent="addNewBook" type="submit" class="btn btn-block">Salvar livro</button>
     </form>
 </template>

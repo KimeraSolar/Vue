@@ -43,8 +43,15 @@ let books = reactive([
         },
       ])
 
-function addBook(newBook: {title: string, cover?: string, isRead: boolean, isbn: string, author?: string}){
-  console.log(newBook)
+function addBook(newBook: {title: string, cover: string, isRead: boolean, isbn: string, author: string}){
+  const lastId = Math.max(...books.map(book => book.id));
+  books.push({...newBook, id: lastId + 1});
+  setShowAddBook(false);
+}
+
+function removeBook(bookToRemove : {id: number}){
+  const bookIndex = books.findIndex( book => bookToRemove.id === book.id);
+  books.splice(bookIndex, 1);
 }
 
 function toggleIsRead(id : number){
@@ -78,7 +85,7 @@ function setShowAddBook(newValue: boolean){
     </div>
  
     <div class="books-container">
-      <Books @toggleIsRead="toggleIsRead" :books="books"/>
+      <Books @toggleIsRead="toggleIsRead" @removeBook="removeBook" :books="books"/>
       <BookProgress :books="books" />
     </div>
   </div>

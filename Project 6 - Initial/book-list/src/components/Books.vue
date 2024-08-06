@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 
 const props = defineProps(['books']);
-const emits = defineEmits(['toggleIsRead']);
+const emits = defineEmits(['toggleIsRead', 'removeBook']);
 
 </script>
 
@@ -25,7 +25,23 @@ const emits = defineEmits(['toggleIsRead']);
                 <p class="book-author">{{ book.author }}</p>
                 <h3 class="book-title">{{ book.title }}</h3>
                 <p><i class="fa-solid fa-hashtag icon"></i>{{ book.isbn }}</p>
+                <button class="delete-button" @click="$emit('removeBook', book)">
+                    Excluir da lista
+                </button>
             </div>
         </div>
     </div>
 </template>
+
+<style lang="css">
+.delete-button{
+    font-size: 12px;
+    text-decoration: underline;
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: fit-content;
+    display: block;
+    padding: 12px;
+}
+</style>
